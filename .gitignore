@@ -1,0 +1,8 @@
+venv/
+fastas/
+*.csv
+*.png
+
+.DS_Store
+
+mutate-model.cxc
