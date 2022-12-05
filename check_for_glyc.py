@@ -17,6 +17,9 @@ for chain in model.chains():
 
 print(f'Found {len(potential_glycosylations)} potential glycosylation sites.')
 
+for glyc in potential_glycosylations:
+    print(f'\t{glyc.replace("view ", "")}')
+
 with open(f'{sys.argv[1][:-4]}_glycs.html', 'w') as f:
     f.write('''
 <!DOCTYPE html>
@@ -33,7 +36,7 @@ with open(f'{sys.argv[1][:-4]}_glycs.html', 'w') as f:
 
     for glyc in potential_glycosylations:
         f.write(f'<a href="cxcmd:{glyc}">{glyc}</a>')
-        
+
     f.write('''     </div>
     </body>
     <script>
