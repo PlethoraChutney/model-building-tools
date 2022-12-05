@@ -5,4 +5,4 @@ fastas/
 
 .DS_Store
 
-mutate-model.cxc
+*.cxc

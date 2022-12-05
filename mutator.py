@@ -114,10 +114,12 @@ def main(args):
         for m in mutations:
             print(f'\t{aa_three_to_one[m[1]]}{m[0]} -> {aa_three_to_one[m[2]]}')
 
-    with open('mutate-model.cxc', 'w') as f:
+    with open(f'mutate_{os.path.split(args.model)[1][:-4]}.cxc', 'w') as f:
+        f.write(f'open {os.path.abspath(args.model)}\n')
+        f.write(f'select "##name={os.path.split(args.model)[1]}"\n')
         for chain, mutations in mismatches.items():
             for m in mutations:
-                f.write(f'swapaa /{chain}:{m[0]} {m[2]}\n')
+                f.write(f'swapaa "sel & /{chain}:{m[0]}" {m[2]}\n')
 
         f.write('\n')
 
