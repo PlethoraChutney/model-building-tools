@@ -71,7 +71,24 @@ def process_fastas(seq_glob: str) -> dict:
 
     return fasta_seqs
 
-def find_mismatches(fastas: dict, model: at.Model, chain_pairs: list) -> dict:
+def process_known_mutations(mutations, mut_glob: str) -> dict:
+    with open(mut_glob, 'r') as f:
+        lines = [x.rstrip() for x in f]
+
+    for line in lines:
+        chain = line[1]
+        canon = aa_one_to_three[line[3]]
+        result = aa_one_to_three[line[-1]]
+        # offset for zero-indexed sequence
+        position = int(line[4:-1]) - 1
+
+        try:
+            mutations[chain][position] = {'canon': canon, 'result': result}
+        except KeyError:
+            mutations[chain] = {position: {'canon': canon, 'result': result}}
+    return mutations
+
+def find_mismatches(fastas: dict, model: at.Model, chain_pairs: list, mutations: dict) -> dict:
     mismatches = {}
 
     for chain in chain_pairs:
@@ -90,12 +107,25 @@ def find_mismatches(fastas: dict, model: at.Model, chain_pairs: list) -> dict:
 
             fasta_res = aa_one_to_three[seq[num]]
 
-            if res.name != fasta_res:
-                mismatches[chain].append((
-                    num + 1,
-                    res.name,
-                    fasta_res
-                ))
+            if chain in mutations and num in mutations[chain]:
+                if fasta_res != mutations[chain][num]['canon']:
+                    print(f'WARNING: Mutation starting residue for /{chain}:{mutations[chain][num]["canon"]}{num + 1}{mutations[chain][num]["result"]} does not match FASTA: {fasta_res}')
+                
+                if res.name == mutations[chain][num]['result']:
+                    continue
+                else:
+                    mismatches[chain].append((
+                        num + 1,
+                        res.name,
+                        mutations[chain][num]["result"]
+                    ))
+            else:
+                if res.name != fasta_res:
+                    mismatches[chain].append((
+                        num + 1,
+                        res.name,
+                        fasta_res
+                    ))
 
     return mismatches
 
@@ -106,8 +136,14 @@ def main(args):
 
     fastas = process_fastas(args.sequence)
     model = at.open(args.model).model
+    if args.mutations is None:
+        mutations = {}
+    else:
+        mutations = {}
+        for mut_file in args.mutations:
+            mutations = (process_known_mutations(mutations, mut_file))
 
-    mismatches = find_mismatches(fastas, model, args.chain)
+    mismatches = find_mismatches(fastas, model, args.chain, mutations)
 
     for chain, mutations in mismatches.items():
         print(f'Found {len(mutations)} potential corrections in chain {chain}:')
@@ -119,7 +155,7 @@ def main(args):
         f.write(f'select "##name={os.path.split(args.model)[1]}"\n')
         for chain, mutations in mismatches.items():
             for m in mutations:
-                f.write(f'swapaa "sel & /{chain}:{m[0]}" {m[2]}\n')
+                f.write(f'swapaa "sel & /{chain}:{m[0]}" {m[2]} critera c\n')
 
         f.write('\n')
 
@@ -143,6 +179,13 @@ parser.add_argument(
     help = 'Pair chain to fasta sequence name. Must match exactly. Give once for each chain.',
     nargs = 2,
     action = 'append'
+)
+
+parser.add_argument(
+    '-m',
+    '--mutations',
+    help = 'Known deviations from input FASTA. Can provide multiple text files. Give one mutation per line in chimera-like format: /A:F102T',
+    nargs = '+'
 )
 
 args = parser.parse_args()
