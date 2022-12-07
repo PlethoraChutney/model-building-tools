@@ -2,6 +2,7 @@ venv/
 fastas/
 *.csv
 *.png
+*.bild
 
 .DS_Store
 
