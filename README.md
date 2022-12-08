@@ -21,10 +21,6 @@ Check a model sequence against a FASTA file. Sites of model/FASTA mismatch
 are printed to the terminal, and a chimeraX `.cxc` command file is
 generated to mutate all mismatches to the FASTA sequence.
 
-Known mutations can be given in mutation `.txt` files, with one
-mutation per line. If you're using multiple mutants off the same
-construct, this'll save you from having to make a bunch of FASTAs.
-
 You'll need to tell the script which chain belongs to which belongs
 to which FASTA. If your protein.fasta is:
 
@@ -35,6 +31,10 @@ AAFAKLCA...
 
 then you'll need to give `--chain A whatever` as an argument to match
 that sequence to chain A of your model.
+
+Known mutations can be given in mutation `.txt` files, with one
+mutation per line. If you're using multiple mutants off the same
+construct, this'll save you from having to make a bunch of FASTAs.
 
 For instance, if you have `protein.fasta` and a model that should
 have that sequence, except chain A has a mutation of C260K and chain
