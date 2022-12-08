@@ -21,8 +21,7 @@ Check a model sequence against a FASTA file. Sites of model/FASTA mismatch
 are printed to the terminal, and a chimeraX `.cxc` command file is
 generated to mutate all mismatches to the FASTA sequence.
 
-You'll need to tell the script which chain belongs to which belongs
-to which FASTA. If your protein.fasta is:
+You'll need to tell the script which chain belongs to which FASTA. If your protein.fasta is:
 
 ```
 >whatever
@@ -51,5 +50,5 @@ your model.
 ## write_cords.py
 
 Just writes out the model, chain, residue number, and
-X, Y, Z coords of a model. I know that's all in the PDB,
+X, Y, Z coords for the CAs of a model. I know that's all in the PDB,
 but god is the PDB format a pain.
