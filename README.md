@@ -6,7 +6,11 @@ Little scripts to simplify model building. Most require atomium.
 
 Build cylinders between CA atoms of two models.
 
-*Note: Right now, only the residue index and chain are used to match residues. So it won't work if the models are of two different proteins.*
+If you want to compare two different proteins, you've got a bit more work to do.
+
+1. Prepare FASTA alignments and provide to `--fastas`
+2. Provide a mapping between model 1 chains and model 2 chains using `--pair-chain`
+3. Provide a mapping between all model chains and their fasta sequences using `--chain-fasta`
 
 ## check_for_glyc.py
 

@@ -162,32 +162,33 @@ def main(args):
     print('To make these mutations, run `mutate-model.cxc` in chimeraX.')
 
 
-parser = argparse.ArgumentParser()
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
 
-parser.add_argument(
-    'model',
-    help = 'Model to check.'
-)
-parser.add_argument(
-    'sequence',
-    help = 'Glob for fasta or fastas.'
-)
+    parser.add_argument(
+        'model',
+        help = 'Model to check.'
+    )
+    parser.add_argument(
+        'sequence',
+        help = 'Glob for fasta or fastas.'
+    )
 
-parser.add_argument(
-    '-c',
-    '--chain',
-    help = 'Pair chain to fasta sequence name. Must match exactly. Give once for each chain.',
-    nargs = 2,
-    action = 'append'
-)
+    parser.add_argument(
+        '-c',
+        '--chain',
+        help = 'Pair chain to fasta sequence name. Must match exactly. Give once for each chain.',
+        nargs = 2,
+        action = 'append'
+    )
 
-parser.add_argument(
-    '-m',
-    '--mutations',
-    help = 'Known deviations from input FASTA. Can provide multiple text files. Give one mutation per line in chimera-like format: /A:F102T',
-    nargs = '+'
-)
+    parser.add_argument(
+        '-m',
+        '--mutations',
+        help = 'Known deviations from input FASTA. Can provide multiple text files. Give one mutation per line in chimera-like format: /A:F102T',
+        nargs = '+'
+    )
 
-args = parser.parse_args()
+    args = parser.parse_args()
 
-main(args)
+    main(args)
