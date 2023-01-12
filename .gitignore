@@ -7,3 +7,5 @@ fastas/
 .DS_Store
 
 *.cxc
+__init__.py
+__pycache__/
