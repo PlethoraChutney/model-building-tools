@@ -67,7 +67,11 @@ def parse_translate(query_string:str):
     reply_id = search_dict[q_chain][q_res_id]
     reply_resname = unaligned_fastas[reply_species + q_chain][int(reply_id) - 1]
 
-    print(f'{q_species}{q_chain.upper()}-{q_resname.upper()}{q_res_id} => {reply_resname.upper()}{reply_id}')
+    print_qspecies = q_species.replace('m', 'Mouse').replace('h', 'Human')
+    print_rspecies = reply_species.replace('m', 'Mouse').replace('h', 'Human')
+    print_chain = q_chain.replace('b', '\u03B2').replace('a', '\u03B1').replace('g', '\u03B3')
+
+    print(f'{print_qspecies} {print_chain}{q_resname.upper()}{q_res_id} => {print_rspecies} {print_chain}{reply_resname.upper()}{reply_id}')
 
 
 
