@@ -145,39 +145,40 @@ def main(args):
 
     write_bild(*args.models, alignments, args.width, chain_dict)
 
-parser = argparse.ArgumentParser()
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
 
-parser.add_argument(
-    'models',
-    help = 'Location of two models to build cylinders between.',
-    nargs = 2
-)
-parser.add_argument(
-    '-f',
-    '--fastas',
-    help = 'If you are comparing models if different proteins, you must provide a fasta-format alignment (i.e., with dashes for indels).'
-)
-parser.add_argument(
-    '-c',
-    '--chain-fasta',
-    help = 'Pair a model number, chain name, and a fasta name. Model 1 is the first model you provide. Give once per chain.)',
-    nargs = 3,
-    action = 'append'
-)
-parser.add_argument(
-    '-p',
-    '--pair-chain',
-    help = 'Give two chain names: the first from model 1, and the second from model 2. These chains will have cylinders drawn between them. Default is to pair A with A, etc. Give once per pair.',
-    nargs = 2,
-    action = 'append'
-)
-parser.add_argument(
-    '-w',
-    '--width',
-    help = 'Width of .bild cylinders. Default 0.5.',
-    default="0.5"
-)
+    parser.add_argument(
+        'models',
+        help = 'Location of two models to build cylinders between.',
+        nargs = 2
+    )
+    parser.add_argument(
+        '-f',
+        '--fastas',
+        help = 'If you are comparing models if different proteins, you must provide a fasta-format alignment (i.e., with dashes for indels).'
+    )
+    parser.add_argument(
+        '-c',
+        '--chain-fasta',
+        help = 'Pair a model number, chain name, and a fasta name. Model 1 is the first model you provide. Give once per chain.)',
+        nargs = 3,
+        action = 'append'
+    )
+    parser.add_argument(
+        '-p',
+        '--pair-chain',
+        help = 'Give two chain names: the first from model 1, and the second from model 2. These chains will have cylinders drawn between them. Default is to pair A with A, etc. Give once per pair.',
+        nargs = 2,
+        action = 'append'
+    )
+    parser.add_argument(
+        '-w',
+        '--width',
+        help = 'Width of .bild cylinders. Default 0.5.',
+        default="0.5"
+    )
 
-args = parser.parse_args()
+    args = parser.parse_args()
 
-main(args)
+    main(args)
