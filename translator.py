@@ -58,7 +58,7 @@ unaligned_fastas = {
 unaligned_fastas = {key: unaligned_fastas[key].replace('-', '') for key in unaligned_fastas}
 
 def parse_translate(query_string:str):
-    q_species, q_chain, q_res_id = query_string[0].lower(), query_string[1], query_string[2:]
+    q_species, q_chain, q_res_id = query_string[0].lower(), query_string[1].lower(), query_string[2:]
 
     q_resname = unaligned_fastas[q_species + q_chain][int(q_res_id) - 1]
 
@@ -76,4 +76,8 @@ def parse_translate(query_string:str):
 
 
 if __name__ == '__main__':
+    if len(sys.argv) != 2:
+        print('Species, chain, number: mA230 for mouse alpha 230')
+        sys.exit()
+
     parse_translate(sys.argv[1])
