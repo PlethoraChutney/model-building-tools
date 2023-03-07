@@ -5,14 +5,27 @@ import os
 import glob
 import pandas as pd
 
+renamer = {
+    'hum-pko': 'Digitonin',
+    'hum-pko-nd': 'Nanodisc',
+    'hum-pko-deg': 'Difab',
+    'hum-pko-deg_monofab': 'Monofab',
+    'jan-mouse-31': 'Uncleaved',
+    'mouse-tryp': 'Trypsin'
+}
+
 def parse_phenix_table(path):
+    print(path)
     separated_path = path.split(os.path.sep)
     mb_root = separated_path.index('model-building')
     construct = separated_path[mb_root + 1]
-    rsr_num = separated_path[mb_root + 3].replace('RealSpaceRefine_', '')
+    construct = renamer[construct]
 
-    with open(path, 'r') as f:
-        lines = [re.split(r'\s{2,}', x.rstrip()) for x in f]
+    try:
+        with open(path, 'r') as f:
+            lines = [re.split(r'\s{2,}', x.rstrip()) for x in f]
+    except FileNotFoundError:
+        return None
 
     # drop empty entries
     lines = [[y for y in x if y] for x in lines]
@@ -79,8 +92,17 @@ def parse_phenix_table(path):
 
 
 if __name__ == '__main__':
-    tables = glob.glob(sys.argv[1])
-    columns = [parse_phenix_table(x) for x in tables]
+    if len(sys.argv) != 2:
+        print('Give path to model building root. Each model should be in a subdir, and symlinked to the phenix project.')
+        sys.exit(1)
+    
+    mb_root = sys.argv[1]
+    latest_models = glob.glob(os.path.join(mb_root, '*', '*latest.pdb'))
+    phenix_tables = [os.path.join(os.path.dirname(os.path.realpath(x)), 'table_one.txt') for x in latest_models]
+    print(*phenix_tables, sep='\n')
+
+    columns = [parse_phenix_table(x) for x in phenix_tables]
+    columns = [x for x in columns if x]
 
     df = {
         'Section': ['Model Building'] * (len(columns[0]) - 1),
@@ -92,9 +114,9 @@ if __name__ == '__main__':
             "Bond angle RMSD",
             'Molprobity score',
             'Clash score',
-            'Ramachandran outliers (%)',
-            'Ramachandran allowed (%)',
-            'Ramachandran favored (%)',
+            'Rama. outliers (%)',
+            'Rama. allowed (%)',
+            'Rama. favored (%)',
             'Rotamer outliers',
             'C&beta; outliers',
             'CaBLAM outliers',
