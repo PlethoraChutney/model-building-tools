@@ -23,7 +23,7 @@ data |>
     binwidth = histogram_binwidth,
     fill = '#CCCCCC'
   ) +
-  geom_line(aes(GlobalX, GlobalY), size = 1) +
+  geom_line(aes(GlobalX, GlobalY), linewidth = 1) +
   geom_segment(
     data = all_points,
     aes(x = x, y = y, xend = x, yend = yend),

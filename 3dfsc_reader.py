@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 import sys
 import re
+import shutil
+import subprocess
 
 def get_global_fsc(lineplot_filename:str) -> list: 
     # cryosparc puts the global fsc data directly into their python
@@ -22,12 +24,12 @@ def get_directional_histogram(histogram_filename:str) -> list:
     return hist_list
 
 def main():
-    if len(sys.argv) != 3:
-        print('Usage: 3dfsc_reader.py {3dfsc lineplot.py filename} {3dfsc histogram.lst filename}')
+    if len(sys.argv) != 2:
+        print('Usage: 3dfsc_reader.py {rename to}')
         sys.exit(1)
 
-    global_fsc_x, global_fsc_y = get_global_fsc(sys.argv[1])
-    directional_hist = get_directional_histogram(sys.argv[2])
+    global_fsc_x, global_fsc_y = get_global_fsc('lineplot.py')
+    directional_hist = get_directional_histogram('histogram.lst')
     
     with open('3dfsc_results.csv', 'w') as f:
         f.write('GlobalX,GlobalY,DirectionalHist\n')
@@ -46,6 +48,10 @@ def main():
                 f.write(f'{directional_hist.pop(0)}\n')
             except IndexError:
                 f.write('NA\n')
+
+    subprocess.run(['Rscript', './plot_3dfsc.R'])
+    shutil.move('processed_3dfsc.pdf', f'{sys.argv[1]}_3dfsc.pdf')
+    shutil.move('processed_3dfsc.png', f'{sys.argv[1]}_3dfsc.png')
 
 if __name__ == '__main__':
     main()
