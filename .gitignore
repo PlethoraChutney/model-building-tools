@@ -8,3 +8,6 @@ venv/
 *.cxc
 __init__.py
 __pycache__/
+histogram.lst
+lineplot.py
+processed_3dfsc.pdf
