@@ -54,7 +54,7 @@ def make_fasta_pairs(f1:str, f2:str) -> dict:
 
     return alignment
 
-def write_bild(mod_1:str, mod_2:str, alignments:dict, width, chain_dict: dict) -> None:
+def write_bild(mod_1:str, mod_2:str, alignments:dict, width, chain_dict: dict, only_chains: str) -> None:
     mod_1 = at.open(mod_1).model
     mod_2 = at.open(mod_2).model
 
@@ -65,6 +65,8 @@ def write_bild(mod_1:str, mod_2:str, alignments:dict, width, chain_dict: dict) -
     mod_2_locs = ca_locs(mod_2)
 
     for m1_chain, residues in mod_1_locs.items():
+        if only_chains is not None and m1_chain not in only_chains:
+            continue
         m2_chain = chain_dict.get(m1_chain, m1_chain)
 
         if m2_chain not in mod_2_locs:
@@ -143,7 +145,7 @@ def main(args):
     else:
         alignments = None
 
-    write_bild(*args.models, alignments, args.width, chain_dict)
+    write_bild(*args.models, alignments, args.width, chain_dict, args.only_chains)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -177,6 +179,11 @@ if __name__ == '__main__':
         '--width',
         help = 'Width of .bild cylinders. Default 0.5.',
         default="0.5"
+    )
+    parser.add_argument(
+        '-o',
+        '--only-chains',
+        help = 'Only make cylinders for the indicated chains. Can give multiple (e.g., -o ABC)'
     )
 
     args = parser.parse_args()
