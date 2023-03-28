@@ -1,9 +1,10 @@
 atomium==1.0.11
 bcrypt==4.0.1
-certifi 
+certifi @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_4d2o0arbv6/croot/certifi_1665076671099/work/certifi
 cffi==1.15.1
 charset-normalizer==2.1.1
 contourpy==1.0.6
+cryosparc-tools==4.2.0
 cryptography==38.0.4
 cycler==0.11.0
 fonttools==4.38.0
@@ -20,11 +21,14 @@ pycparser==2.21
 PyNaCl==1.5.0
 pyparsing==3.0.9
 python-dateutil==2.8.2
+python-snappy==0.6.1
 pytz==2022.6
 requests==2.28.1
 rmsd==1.4
 scipy==1.9.3
 seaborn==0.12.1
 six==1.16.0
+starfile==0.4.11
+typing_extensions==4.5.0
 urllib3==1.26.13
 valerius==0.2.0
