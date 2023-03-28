@@ -31,8 +31,9 @@ data |>
     position = position_jitter(width = histogram_binwidth/7, height = 0)
   ) +
   scale_x_continuous(
-    breaks = c(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6),
-    labels = c('DC', '10', '5', '3.3', '2.5', '2', '1.2')
+    breaks = c(0, 1/10, 1/5, 1/3, 1/2, 1, 2),
+    labels = c('DC', '10', '5', '3', '2', '1', '0.5'),
+    minor_breaks = 1/c(7.5, 4, 2.5, 1.5)
   ) +
   scale_y_continuous(
     sec.axis = sec_axis(
