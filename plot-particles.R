@@ -2,6 +2,11 @@ library(tidyverse)
 
 data <- read_csv('processed-star.csv')
 
+fill_header <- paste0(
+  'No. particles\nTotal: ',
+  format(nrow(data), big.mark = ',')
+)
+
 data |> 
   mutate(rlnAngleTilt = rlnAngleTilt - 90) |> 
   ggplot(aes(rlnAngleRot, rlnAngleTilt)) +
@@ -24,6 +29,6 @@ data |>
   labs(
     x = 'Azimuth (\u00B0)',
     y = 'Elevation (\u00B0)',
-    fill = 'No. particles'
+    fill = fill_header
   )
 ggsave('hexplot.pdf', width = 8, height = 4)
