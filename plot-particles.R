@@ -13,9 +13,11 @@ data |>
     breaks = c(1, 10, 100, 1000)
   ) +
   scale_y_continuous(
+    limits = c(-90, 90),
     breaks = seq(-180, 180, by = 45)
   ) +
   scale_x_continuous(
+    limits = c(-180, 179),
     breaks = seq(-180, 180, by = 45)
   ) +
   coord_fixed() +
