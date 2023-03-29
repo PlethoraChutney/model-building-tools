@@ -56,3 +56,29 @@ your model.
 Just writes out the model, chain, residue number, and
 X, Y, Z coords for the CAs of a model. I know that's all in the PDB,
 but god is the PDB format a pain.
+
+## Validation
+
+It's good to validate your map and model. I've included a few
+helpers, but they're specific to my situation so might take
+a bit of modification.
+
+`3dfsc_reader.py` reads in 3DFSC results files from cryoSPARC and
+produces a nicer plot. You need `histogram.lst` and `lineplot.py`
+from the cryoSPARC job.
+
+`orientation_plotter.py` re-plots the Euler orientation angle heatmap.
+I mostly wrote it because I hate the cryoSPARC default color theme,
+it's probably not broadly necessary.
+
+`model_map.py` re-plots model-map FSC values from phenix. No
+modifications are made --- it's just a bit prettier.
+
+`phenix_table_reader.py` reads in refinement tables exported
+from phenix. It's set up in a bit of a weird way: it'll look
+for a .pdb file ending in "latest.pdb". It expects that to
+be a symlink to a phenix job. It'll look in that phenix job
+for `table_one.txt`, which it will read and make a column
+of a combined table. This is probably not that useful unless
+you think about building models the same way I do, and you're building
+a lot of them.

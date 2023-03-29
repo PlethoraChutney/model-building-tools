@@ -8,11 +8,6 @@ data |>
   theme(
     legend.position = 'top'
   ) +
-  geom_hline(
-    yintercept = 0.143,
-    color = '#AAAAAA',
-    linetype = 'dashed'
-  ) +
   scale_color_manual(values = c('#0077BB', '#EE99AA')) +
   geom_line(aes(color = Table)) +
   expand_limits(y = 1) +
