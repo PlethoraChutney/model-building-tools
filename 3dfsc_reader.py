@@ -3,6 +3,9 @@ import sys
 import re
 import shutil
 import subprocess
+import os
+
+script_location = os.path.dirname(os.path.realpath(__file__))
 
 def get_global_fsc(lineplot_filename:str) -> list: 
     # cryosparc puts the global fsc data directly into their python
@@ -49,7 +52,7 @@ def main():
             except IndexError:
                 f.write('NA\n')
 
-    subprocess.run(['Rscript', './plot_3dfsc.R'])
+    subprocess.run(['Rscript', os.path.join(script_location, './plot_3dfsc.R')])
     shutil.move('processed_3dfsc.pdf', f'{sys.argv[1]}_3dfsc.pdf')
     shutil.move('processed_3dfsc.png', f'{sys.argv[1]}_3dfsc.png')
 
